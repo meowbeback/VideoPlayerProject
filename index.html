@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Видеоплеер</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>тестовый видеоплеер</h1>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="upload">загрузка видео</button>
+            <button class="tab-btn" data-tab="player">воспроизведение</button>
+        </div>
+
+        <!-- Upload Tab -->
+        <div class="tab-content active" id="upload">
+            <div class="upload-area test-css-loaded" id="uploadArea">
+                <h3>перетащите видео сюда</h3>
+                <p>или</p>
+                <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                    выбрать видео
+                </button>
+                <input type="file" id="fileInput" class="file-input" accept="video/*" multiple>
+                
+            </div>
+
+            <div class="video-list" id="videoList"></div>
+        </div>
+
+        <!-- Player Tab -->
+        <div class="tab-content" id="player">
+            <div id="playerContent" class="no-video">
+                <p>выберите видео для воспроизведения</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Простой тест загрузки
+        setTimeout(() => {
+            console.log('Тест: проверка элементов DOM');
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            const videoList = document.getElementById('videoList');
+
+            console.log('uploadArea:', uploadArea ? 'найден' : 'НЕ НАЙДЕН');
+            console.log('fileInput:', fileInput ? 'найден' : 'НЕ НАЙДЕН');
+            console.log('videoList:', videoList ? 'найден' : 'НЕ НАЙДЕН');
+
+            if (uploadArea) {
+                uploadArea.addEventListener('click', () => {
+                    console.log('Клик по uploadArea');
+                });
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
