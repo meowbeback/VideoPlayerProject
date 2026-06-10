@@ -321,24 +321,26 @@ function playVideo(videoId) {
         </div>
         <div class="video-subtitles">
             <div class="subtitles-text" id="subtitlesText"></div>
-            <div class="translation-panel" style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
-                <select id="targetLangSelect" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+            <div class="translation-panel" style="margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; position: relative; z-index: 10;">
+                <select id="targetLangSelect" aria-label="Выбор языка для перевода">
                     <option value="ru" selected>Русский</option>
                     <option value="en">Английский</option>
                     <option value="uk">Украинский</option>
                     <option value="de">Немецкий</option>
                 </select>
-                <button id="translateBtn" class="back-btn">Перевести текст</button>
+                <button id="translateBtn" class="back-btn">перевести</button>
                 
-                <div id="translationResult" style="width: 100%; margin-top: 8px; color: #000;
-                    background: #fff; padding: 8px 10px; border-radius: 6px; min-height: 48px;
-                    white-space: pre-wrap;
-                    font-size: 14px;
+                <div id="translationResult" style="width: 100%; margin-top: 10px; color: #1f2a48;
+                    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(229, 237, 255, 0.9) 100%);
+                    padding: 12px 14px; border-radius: 8px; min-height: 40px;
+                    white-space: pre-wrap; font-size: 13px; line-height: 1.5;
+                    border: 1px solid rgba(112, 139, 209, 0.15);
+                    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
                 "></div>
             </div>
         </div>
         <div class="player-controls">
-            <button class="back-btn" onclick="switchTab('upload')">←вернуться к загрузке</button>
+            <button class="back-btn" onclick="switchTab('upload')">← вернуться</button>
         </div>
     `;
 
