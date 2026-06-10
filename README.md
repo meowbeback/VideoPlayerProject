@@ -1,12 +1,10 @@
 ﻿# Video OCR & Translation
 
 Проект представляет собой веб-приложение для извлечения, распознавания и перевода текста с видеокадра. Приложения работает с помощью дообученной ИИ-модели EasyOCR.
-<table>
-  <tr>
-    <td align="center"><img src="image-1.png" alt="Страница загрузки" width="45%"/></td>
-    <td align="center"><img src="image.png" alt="Страница воспроизведения" width="45%"/></td>
-  </tr>
-</table>
+<div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+  <img src="download_page.png" alt="Страница загрузки" width="45%"/>
+  <img src="playvideo_page.png" alt="Страница воспроизведения" width="45%"/>
+</div>
 
 ## Структура проекта
 
