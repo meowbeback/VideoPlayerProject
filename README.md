@@ -98,12 +98,17 @@ http://localhost:8000
 Скачивание через Kaggle CLI:
 
 1. Установите kaggle CLI, если нужно  
+```powershell
 pip install kaggle
+```  
 
 2. Поместите kaggle.json (API token) в %USERPROFILE%\\.kaggle\\kaggle.json или экспортируйте переменные окружения  
 Скачать и распаковать датасет в backend/model  
+
+```powershell
 kaggle datasets download -d evgeniyashpirnova/trainvaldataset -p backend/model --unzip  
 kaggle models download -m evgeniyashpirnova/latin-g2-finetuned -p backend/model --unzip
+```  
 
 ## Как использовать
 
