@@ -55,15 +55,16 @@ Project/
 ### 1. Клонируйте репозиторий
 
 ```powershell
-cd C:\Users\user\TestInterface
+git clone https://github.com/meowbeback/VideoPlayerProject.git
 ```
 
 ### 2. Создайте виртуальное окружение и установите зависимости
 
 ```powershell
 cd backend
-python -m venv venv
-.\venv\Scripts\Activate.ps1
+python3 -m venv venv
+.\venv\Scripts\Activate.ps1 (Windows)
+source venv/bin/activate (Linux)
 pip install -r requirements.txt
 ```
 
@@ -92,7 +93,6 @@ http://localhost:8000
 
 ## Model & Dataset (Kaggle)
 
-- Model: https://www.kaggle.com/models/evgeniyashpirnova/latin-g2-finetuned
 - Dataset: https://www.kaggle.com/datasets/evgeniyashpirnova/trainvaldataset
 
 Скачивание через Kaggle CLI:
