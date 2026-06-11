@@ -115,9 +115,9 @@ async def translate_text(request: TranslateRequest):
 ocr = easyocr.Reader(
     ['de'],
     gpu=False,
-    # recog_network="best_accuracy",
-    # user_network_directory=str(user_network_dir),
-    # model_storage_directory=str(model_storage_dir),
+    recog_network="best_accuracy",
+    user_network_directory=str(user_network_dir),
+    model_storage_directory=str(model_storage_dir),
     verbose=True,
 )
 
@@ -212,18 +212,15 @@ async def recognize(file: UploadFile = File(...)):
     final_text = " ".join(
         [f"[{item['id']}] {item['text']}" for item in processed]
     )
-    
-    # Текст только с содержимым, без номеров, для перевода
-    final_text_clean = " ".join([item['text'] for item in processed])
 
     print(f'OCR final_text: {final_text}')
     print(f'OCR words returned: {len(processed)}')
 
     return {
-        "text": final_text_clean,
-        "text_with_numbers": final_text,
+        "text": final_text,
         "words": processed,
 
+        # useful for frontend scaling
         "image_width": int(img.shape[1]),
         "image_height": int(img.shape[0])
     }

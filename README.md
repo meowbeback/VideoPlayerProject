@@ -14,26 +14,37 @@
   - перевода текста через Yandex Translate (`/translate`)
   - обслуживания фронтенда и статических файлов
 
+- `backend/user_network/` — файлы для работы дообученной модели
+- `backend/model/` — модели EasyOCR (craft и latin)
+
 - `frontend/js/app.js` — логика загрузки видео, управления плеером, OCR и переводом
 - `frontend/css/styles.css` — стили интерфейса
 
+- `ml_notebooks/` — ноутбуки для подготовки данных, обучения, исследования метрик
+- `ml_notebooks/my_finetune.yaml` — конфигурация дообучения
+
 ```text
-TestInterface/
+Project/
 ├── backend/
 │   ├── main.py
-│   └── requirements.txt
+│   ├── requirements.txt
+│   ├── user_network/
+│   └── model/
 ├── frontend/
 │   ├── index.html
 │   ├── css/
 │   │   └── styles.css
 │   └── js/
 │       └── app.js
+├── ml_notebooks/
+│   ├── dataset-preparation.ipynb
+│   ├── eval-metrics.ipynb
+│   └── my_finetune.yaml
 └── README.md
 ```
 ## Основные возможности
 
 - загрузка видео через drag-and-drop или файл-диалог
-- сохранение видео в `localStorage` браузера
 - воспроизведение загруженных видео
 - остановка видео на кадре и отправка кадра на OCR
 - отображение рамок распознанного текста на видео
@@ -79,6 +90,21 @@ uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 http://localhost:8000
 ```
 
+## Model & Dataset (Kaggle)
+
+- Model: https://www.kaggle.com/models/evgeniyashpirnova/latin-g2-finetuned
+- Dataset: https://www.kaggle.com/datasets/evgeniyashpirnova/trainvaldataset
+
+Скачивание через Kaggle CLI:
+
+# Установите kaggle CLI, если нужно
+pip install kaggle
+
+# Поместите kaggle.json (API token) в %USERPROFILE%\\.kaggle\\kaggle.json или экспортируйте переменные окружения
+# Скачать и распаковать датасет в backend/model
+kaggle datasets download -d evgeniyashpirnova/trainvaldataset -p backend/model --unzip
+kaggle models download -m evgeniyashpirnova/latin-g2-finetuned -p backend/model --unzip
+
 ## Как использовать
 
 1. Загрузите видео на вкладке `загрузка видео`.
@@ -86,5 +112,3 @@ http://localhost:8000
 3. Остановите видео на нужном кадре.
 4. Приложение отправит кадр на `/ocr` и получит распознанный текст.
 5. Нажмите `Перевести текст` или выберите язык и перевод автоматически выполнится.
-
-Проект можно использовать для личных и учебных целей.
