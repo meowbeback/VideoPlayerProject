@@ -21,8 +21,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
-
+BASE_DIR = Path(__file__).resolve().parent
+frontend_dir = BASE_DIR.parent / "frontend"
+user_network_dir = BASE_DIR / "user_network"
+model_storage_dir = BASE_DIR / "model"
 
 if not frontend_dir.exists():
     raise RuntimeError(f"Frontend folder not found: {frontend_dir}")
@@ -34,6 +36,23 @@ class TranslateRequest(BaseModel):
     source: str = "auto"
     target: str = "ru"
 
+# Роут для получения index.html
+@app.get("/", response_class=FileResponse)
+async def root():
+    index_file = frontend_dir / "index.html"
+    if not index_file.exists():
+        raise HTTPException(status_code=500, detail="Frontend index.html not found")
+    return FileResponse(str(index_file))
+    
+# Роут для получения favicon.ico
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    favicon_path = frontend_dir / "favicon.ico"
+    if favicon_path.exists():
+        return FileResponse(str(favicon_path))
+    raise HTTPException(status_code=404)
+
+# Перевод текста с помощью Yandex Translate API
 @app.post("/translate")
 async def translate_text(request: TranslateRequest):
     text = request.text.strip()
@@ -93,22 +112,16 @@ async def translate_text(request: TranslateRequest):
         "source": detected_source,
     }
 
-@app.get("/", response_class=FileResponse)
-async def root():
-    index_file = frontend_dir / "index.html"
-    if not index_file.exists():
-        raise HTTPException(status_code=500, detail="Frontend index.html not found")
-    return FileResponse(str(index_file))
+ocr = easyocr.Reader(
+    ['de'],
+    gpu=False,
+    # recog_network="best_accuracy",
+    # user_network_directory=str(user_network_dir),
+    # model_storage_directory=str(model_storage_dir),
+    verbose=True,
+)
 
-@app.get("/favicon.ico", include_in_schema=False)
-async def favicon():
-    favicon_path = frontend_dir / "favicon.ico"
-    if favicon_path.exists():
-        return FileResponse(str(favicon_path))
-    raise HTTPException(status_code=404)
-
-ocr = easyocr.Reader(['de'])
-
+# Роут для распознавания текста на изображении
 @app.post("/ocr")
 async def recognize(file: UploadFile = File(...)):
 
@@ -199,15 +212,18 @@ async def recognize(file: UploadFile = File(...)):
     final_text = " ".join(
         [f"[{item['id']}] {item['text']}" for item in processed]
     )
+    
+    # Текст только с содержимым, без номеров, для перевода
+    final_text_clean = " ".join([item['text'] for item in processed])
 
     print(f'OCR final_text: {final_text}')
     print(f'OCR words returned: {len(processed)}')
 
     return {
-        "text": final_text,
+        "text": final_text_clean,
+        "text_with_numbers": final_text,
         "words": processed,
 
-        # useful for frontend scaling
         "image_width": int(img.shape[1]),
         "image_height": int(img.shape[0])
     }
